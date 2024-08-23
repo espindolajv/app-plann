@@ -1,4 +1,3 @@
-import dayjs from "dayjs"
 import { Task } from "./Task"
 
 export interface List {
