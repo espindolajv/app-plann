@@ -29,7 +29,7 @@ export function FormList() {
     }
 
     return (
-        <div className="flex items-center bg-zinc-100 rounded-md px-3 py-2 w-56">
+        <div className="flex items-center bg-zinc-100 rounded-md px-3 py-2 w-56 animate-fade-in">
             <div className="flex justify-between items-center gap-1">
                 <input type="text" className="w-[180px] text-sm font-medium bg-transparent flex-1 outline-none" placeholder="List name" onChange={handleInput} onKeyDown={handleKeyDown}/>
                 <button className="hover:bg-zinc-300 rounded-[4px] p-0.5"><Plus strokeWidth={2} className="size-4 bg-transparent text-zinc-500 duration-500" onClick={submitList} type="submit" /></button>
