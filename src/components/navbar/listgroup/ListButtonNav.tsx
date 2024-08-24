@@ -1,7 +1,7 @@
 import { EllipsisVertical } from "lucide-react";
 import Link from "next/link";
 import { Options } from "../OptionsList";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface ListButtonNavProps {
     text: string
@@ -11,6 +11,26 @@ interface ListButtonNavProps {
 
 export function ListButtonNav({ text, tasks, id }: ListButtonNavProps) {
     const [open, setOpen] = useState(false)
+    const optionsRef = useRef<HTMLDivElement>(null);
+    const buttonRef = useRef<HTMLButtonElement | null>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (optionsRef.current &&
+                buttonRef.current &&
+                !optionsRef.current.contains(event.target as Node) &&
+                !buttonRef.current.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
 
     return (
         <div className="relative">
@@ -23,10 +43,11 @@ export function ListButtonNav({ text, tasks, id }: ListButtonNavProps) {
             <button
                 className={`${open ? 'bg-zinc-200' : 'hover:bg-zinc-200'} rounded-[4px] p-0.5 absolute bottom-2 left-3 duration-300 animate-fade-in z-10`}
                 onClick={() => setOpen(!open)}
+                ref={buttonRef}
             >
                 <EllipsisVertical strokeWidth={2} className="size-4 bg-transparent text-zinc-500" />
             </button>
-            {open && <Options id={id}/>}
+            {open && <Options id={id} refOpen={optionsRef} />}
         </div>
     )
 }

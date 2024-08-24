@@ -1,7 +1,7 @@
 import { EllipsisVertical } from "lucide-react";
 import Link from "next/link";
 import { Options } from "../OptionsList";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface WorkButtonNavProps {
     color: string,
@@ -34,6 +34,21 @@ const colorPick = (color: string) => {
 
 export function WorkButtonNav({ color, name, id }: WorkButtonNavProps) {
     const [open, setOpen] = useState(false)
+    const optionsRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (optionsRef.current && !optionsRef.current.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     return (
         <div className="relative">
@@ -49,7 +64,7 @@ export function WorkButtonNav({ color, name, id }: WorkButtonNavProps) {
             >
                 <EllipsisVertical strokeWidth={2} className="size-4 bg-transparent text-zinc-500" />
             </button>
-            {open && <Options id={id} workspace />}
+            {open && <Options id={id} workspace refOpen={optionsRef}/>}
         </div>
     )
 }
