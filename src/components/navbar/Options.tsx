@@ -9,7 +9,7 @@ export function Options({ id, workspace = false, refOpen }: { id: string, worksp
 
     return (
         <div
-            className=" flex gap-1 items-center justify-center p-1 rounded-lg bg-zinc-50 absolute z-20 top-10 shadow-md animate-fade-in"
+            className=" flex gap-1 items-center justify-center p-1 rounded-lg bg-zinc-50 absolute z-20 top-10 shadow-xl animate-fade-in"
             ref={refOpen}
         >
             <button

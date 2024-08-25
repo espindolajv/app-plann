@@ -1,6 +1,6 @@
 import { EllipsisVertical } from "lucide-react";
 import Link from "next/link";
-import { Options } from "../OptionsList";
+import { Options } from "../Options";
 import { useEffect, useRef, useState } from "react";
 
 interface WorkButtonNavProps {
@@ -52,7 +52,7 @@ export function WorkButtonNav({ color, name, id }: WorkButtonNavProps) {
 
     return (
         <div className="relative">
-            <Link href={`/workspace/${id}`} className="flex items-center bg-zinc-100 rounded-md pl-10 gap-2 px-3 py-2 w-56 hover:bg-zinc-200 duration-500">
+            <Link href={`/workspace/${id}`} className="flex items-center rounded-md pl-10 gap-2 px-3 py-2 w-56 hover:bg-zinc-200 duration-500">
                 <div className="flex justify-between items-center flex-1 max-w-56">
                     <h3 className="text-sm font-medium truncate">{name}</h3>
                     <div className={`${colorPick(color)} rounded-full h-3 w-3`}></div>
