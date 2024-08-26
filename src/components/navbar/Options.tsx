@@ -2,10 +2,25 @@ import { ListContext } from "@/contexts/ListContextProvider";
 import { useWorkContext } from "@/contexts/WorkContextProvider";
 import { Pencil, Trash2 } from "lucide-react";
 import { useContext } from "react";
+import { useParams, useRouter } from "next/navigation";
 
-export function Options({ id, workspace = false, refOpen }: { id: string, workspace?: boolean , refOpen: any}) {
+export function Options({ idItem, workspace = false, refOpen }: { idItem: string, workspace?: boolean, refOpen: any }) {
     const { handleRemoveList } = useContext(ListContext)
     const { handleRemoveWork } = useWorkContext()
+    const { id } = useParams<{ id: string }>()
+    const router = useRouter()
+
+    const remove = (idItem: string, workspace: boolean) => {
+        if (workspace) {
+            handleRemoveWork(idItem)
+        }
+        
+        handleRemoveList(idItem)
+
+        if (id === idItem) {
+            router.push('/')
+        }
+    }
 
     return (
         <div
@@ -14,7 +29,7 @@ export function Options({ id, workspace = false, refOpen }: { id: string, worksp
         >
             <button
                 className="flex items-center justify-center gap-1 w-full rounded-md text-start p-1.5 text-xs font-medium bg-transparent text-red-600 hover:bg-red-100 duration-300"
-                onClick={() => {workspace ? handleRemoveWork(id) : handleRemoveList(id)}}
+                onClick={() => remove(idItem, workspace)}
             >
                 <Trash2 className="size-4" />
             </button>

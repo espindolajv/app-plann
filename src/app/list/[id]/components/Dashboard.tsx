@@ -1,5 +1,3 @@
-'use client'
-
 import React from 'react'
 import { ListContext } from "@/contexts/ListContextProvider"
 import { useContext, useState } from "react"

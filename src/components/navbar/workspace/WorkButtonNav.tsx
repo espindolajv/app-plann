@@ -64,7 +64,7 @@ export function WorkButtonNav({ color, name, id }: WorkButtonNavProps) {
             >
                 <EllipsisVertical strokeWidth={2} className="size-4 bg-transparent text-zinc-500" />
             </button>
-            {open && <Options id={id} workspace refOpen={optionsRef}/>}
+            {open && <Options idItem={id} workspace refOpen={optionsRef}/>}
         </div>
     )
 }

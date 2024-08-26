@@ -47,7 +47,7 @@ export function ListButtonNav({ text, tasks, id }: ListButtonNavProps) {
             >
                 <EllipsisVertical strokeWidth={2} className="size-4 bg-transparent text-zinc-500" />
             </button>
-            {open && <Options id={id} refOpen={optionsRef} />}
+            {open && <Options idItem={id} refOpen={optionsRef} />}
         </div>
     )
 }
