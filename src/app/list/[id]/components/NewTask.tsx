@@ -1,4 +1,3 @@
-import { ToggleButton } from "@/components/ToggleButton";
 import { ListContext } from "@/contexts/ListContextProvider";
 import { Task } from "@/models/Task";
 import { X } from "lucide-react";
@@ -7,33 +6,38 @@ import { v4 as uuidv4 } from 'uuid';
 
 export function NewTask({ setOpen, elementName, id }: { setOpen: React.Dispatch<React.SetStateAction<boolean>>, elementName: string, id: string }) {
     const { handleAddTask } = useContext(ListContext)
+    const [select, setSelect] = useState('')
 
-    const [task, setTask] = useState<Task>({} as Task)
-    const [priority, setPriority] = useState('')
-    const [name, setName] = useState('')
-    const [description, setDescription] = useState('')
+    const handleSelect = (event: React.MouseEvent<HTMLButtonElement>) => {
+        const value = event.currentTarget.value;
+        setSelect(() => value);
+        setTask(prevTask => ({
+            ...prevTask,
+            priority: value,
+        }));
+    }
+
+    const [task, setTask] = useState<Task>({
+        checked: false,
+        priority: '',
+        name: '',
+        description: '',
+        id: uuidv4()
+    });
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
-        setTask({
-            checked: false,
-            priority,
-            name,
-            description,
-            id: uuidv4()
-        })
-        handleAddTask(id, task)
-        setOpen(false)
-    }
+        event.preventDefault();
+        handleAddTask(id, task);
+        setOpen(false);
+    };
 
-    const handleTaskName = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newName = event.target.value
-        setName(newName)
-    }
-
-    const handleDescription = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setDescription(event.target.value)
-    }
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = event.target;
+        setTask(prevTask => ({
+            ...prevTask,
+            [name]: value,
+        }));
+    };
 
     return (
         <div className="flex flex-col justify-center p-3 border-2 absolute w-[400px] bg-zinc-50 right-4 top-4 rounded-xl animate-fade-in">
@@ -52,27 +56,61 @@ export function NewTask({ setOpen, elementName, id }: { setOpen: React.Dispatch<
                 <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
                     <input
                         type="text"
+                        name="name"
                         placeholder="Task name"
                         className="outline-none border-2 px-3 py-2 rounded-lg text-sm"
-                        onChange={handleTaskName}
+                        onChange={handleChange}
                     />
 
                     <textarea
+                        name="description"
                         className="outline-none border-2 px-3 py-2 rounded-lg text-sm resize-none h-40"
                         placeholder="Description"
-                        onChange={handleDescription}
+                        onChange={handleChange}
                     />
 
-                    <ToggleButton setPriority={setPriority} />
+                    <div>
+                        <div className="border-2 rounded-md flex justify-center items-center p-1 gap-1">
+                            <button
+                                className={`flex-1 py-1 text-sm rounded-md ${select == 'low' ? 'bg-blue-600 text-white font-semibold' : 'hover:bg-zinc-200'} duration-300`}
+                                value='low'
+                                type="button"
+                                onClick={handleSelect}
+                            >
+                                Low
+                            </button>
+
+                            <div className="h-6 w-0.5 bg-zinc-300"></div>
+
+                            <button
+                                className={`flex-1 py-1 text-sm rounded-md ${select == 'medium' ? 'bg-yellow-500 text-white font-semibold' : 'hover:bg-zinc-200'} duration-300`}
+                                value='medium'
+                                type="button"
+                                onClick={handleSelect}
+                            >
+                                Medium
+                            </button>
+
+                            <div className="h-6 w-0.5 bg-zinc-300"></div>
+
+                            <button
+                                className={`flex-1 py-1 text-sm rounded-md ${select == 'high' ? 'bg-red-600 text-white font-semibold' : 'hover:bg-zinc-200'} duration-300`}
+                                value='high'
+                                type="button"
+                                onClick={handleSelect}
+                            >
+                                High
+                            </button>
+                        </div>
+                    </div>
 
                     <button
-                        className='bg-green-200 w-full px-4 py-2 text-green-800 font-semibold rounded-md hover:bg-green-600 hover:text-zinc-50 duration-300' 
+                        className='bg-green-200 w-full px-4 py-2 text-green-800 font-semibold rounded-md hover:bg-green-600 hover:text-zinc-50 duration-300'
                         type="submit"
                     >
                         Add Task
                     </button>
                 </form>
-
             </div>
         </div>
     )

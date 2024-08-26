@@ -5,9 +5,7 @@ import { ListContext } from "@/contexts/ListContextProvider"
 import { useContext, useState } from "react"
 import dayjs from 'dayjs'
 import localizedFormat from 'dayjs/plugin/localizedFormat';
-import { ToggleButton } from "@/components/ToggleButton";
 import { Plus, X } from "lucide-react";
-import Link from "next/link";
 import { NotFound } from '@/components/NotFound'
 import { NewTask } from './NewTask'
 
