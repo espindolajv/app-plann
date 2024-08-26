@@ -7,7 +7,7 @@ import { ChangeEvent, useState } from "react";
 
 export function FormWorkspace() {
     const [inputValue, setInputValue] = useState('')
-    const [colorValue, setColorValue] = useState('red')
+    const [colorValue, setColorValue] = useState('zinc')
     const { handleSetWork } = useWorkContext()
     const { handleShowInputWork } = useShowInpuWorktContext()
 
@@ -39,7 +39,7 @@ export function FormWorkspace() {
             <div className="flex justify-between items-center">
                 <input type="text" className="w-[110px] text-sm font-medium bg-transparent flex-1 outline-none" placeholder="Workspace" onChange={handleInput} onKeyDown={handleKeyDown} required/>
                 <div className="bg-zinc-200 w-0.5 h-4 mx-2"></div>
-                <input type="" className="w-[50px] text-sm font-medium bg-transparent flex-1 outline-none" placeholder="Color" onChange={handleInputColor} onKeyDown={handleKeyDown} required/>
+                <input type="" className="w-[50px] text-sm font-medium bg-transparent flex-1 outline-none" placeholder="Color" onChange={handleInputColor} onKeyDown={handleKeyDown} />
                 <button className="hover:bg-zinc-300 rounded-[4px] p-0.5"><Plus strokeWidth={2} className="size-4 bg-transparent text-zinc-500 duration-500" onClick={submitList}/></button>
             </div>
         </div>

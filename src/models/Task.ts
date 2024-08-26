@@ -1,6 +1,7 @@
 export interface Task {
+    id: string
     name: string
     checked: boolean
-    priority: 'hard' | 'medium' | 'low'
+    priority: string
     description?: string
 }

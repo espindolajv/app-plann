@@ -1,11 +1,13 @@
-import { createContext, useState, ReactNode, useEffect, useContext  } from "react";
+import { createContext, useState, ReactNode, useEffect } from "react";
 import { List } from '@/models/List';
 import { v4 as uuidv4 } from 'uuid';
+import { Task } from "@/models/Task";
 
 interface ListContextType {
     list: List[];
     handleSetList: (name: string) => void
     handleRemoveList: (id: string) => void
+    handleAddTask: (id: string, task: Task) => void
 }
 
 export const ListContext = createContext<ListContextType>({} as ListContextType);
@@ -19,7 +21,7 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
 
         return JSON.parse(data)
     });
-    
+
 
     useEffect(() => {
         localStorage.setItem('lists-objects', JSON.stringify(list))
@@ -42,9 +44,18 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
         setList((prevList) => prevList.filter(item => item.id !== id))
     }
 
+    const handleAddTask = (id: string, task: Task) => {
+        setList(prevList => {
+            return prevList.map(item =>
+                item.id === id
+                    ? { ...item, tasks: [...item.tasks, task] }
+                    : item
+            );
+        });
+    }
 
     return (
-        <ListContext.Provider value={{ list, handleSetList, handleRemoveList }}>
+        <ListContext.Provider value={{ list, handleSetList, handleRemoveList, handleAddTask }}>
             {children}
         </ListContext.Provider>
     );

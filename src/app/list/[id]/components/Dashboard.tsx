@@ -29,6 +29,8 @@ export function Dashboard({ id }: ContentProps) {
 
     const element = findList(id)
 
+    console.log(element)
+
     return (
         <div>
             {element ?
@@ -54,11 +56,19 @@ export function Dashboard({ id }: ContentProps) {
                                 <h3 className="font-medium">New task</h3>
                             </button>
                         </div>
-
+                        <div>
+                            {element.tasks.map(item => (
+                                <div key={item.id}>
+                                    <h3>{item.name}</h3>
+                                    <p>{item.description}</p>
+                                    <p>{item.priority}</p>
+                                </div>
+                            ))}
+                        </div>
                     </div>
 
                     {open &&
-                        <NewTask setOpen={setOpen} name={element?.name} />
+                        <NewTask setOpen={setOpen} elementName={element?.name} id={element.id}/>
                     }
                 </div>
                 :
