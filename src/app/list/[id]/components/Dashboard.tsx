@@ -6,6 +6,7 @@ import localizedFormat from 'dayjs/plugin/localizedFormat';
 import { Plus, X } from "lucide-react";
 import { NotFound } from '@/components/NotFound'
 import { NewTask } from './NewTask'
+import { Task } from './Task';
 
 dayjs.extend(localizedFormat)
 
@@ -30,7 +31,7 @@ export function Dashboard({ id }: ContentProps) {
     return (
         <div>
             {element ?
-                <div className="w-full flex gap-5 h-full animate-fade-in">
+                <div className="w-full flex gap-5 h-screen animate-fade-in">
                     <div className="flex flex-col gap-10 flex-1 px-12 py-10">
 
                         <div>
@@ -52,19 +53,23 @@ export function Dashboard({ id }: ContentProps) {
                                 <h3 className="font-medium">New task</h3>
                             </button>
                         </div>
-                        <div>
-                            {element.tasks.map(item => (
-                                <div key={item.id}>
-                                    <h3>{item.name}</h3>
-                                    <p>{item.description}</p>
-                                    <p>{item.priority}</p>
-                                </div>
-                            ))}
+                        <div className='flex-1'>
+                            {element.tasks.length ? (
+                                (
+                                    element.tasks.map(item => (
+                                        <Task task={item} key={item.id} />
+                                    ))
+                                )
+                            ) :
+                                <div className='flex flex-col h-full justify-center items-center gap-1'>
+                                    <h2 className='font-semibold text-2xl text-zinc-800'>You don`t have any tasks aqui</h2>
+                                    <p className='font-medium text-xs text-zinc-500'>Start creating items by clicking on `Create new task`</p>
+                                </div>}
                         </div>
                     </div>
 
                     {open &&
-                        <NewTask setOpen={setOpen} elementName={element?.name} id={element.id}/>
+                        <NewTask setOpen={setOpen} elementName={element?.name} id={element.id} />
                     }
                 </div>
                 :

@@ -1,14 +1,15 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
-import { List } from '@/models/List';
+import type { List } from '@/models/List';
 import { v4 as uuidv4 } from 'uuid';
 import { Task } from "@/models/Task";
-import { redirect } from "next/navigation";
 
 interface ListContextType {
     list: List[];
     handleSetList: (name: string) => void
     handleRemoveList: (id: string) => void
     handleAddTask: (id: string, task: Task) => void
+    handleRemoveTask: (id: string) => void
+    handleCheckTask: (id: string) => void
 }
 
 export const ListContext = createContext<ListContextType>({} as ListContextType);
@@ -55,8 +56,26 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
         });
     }
 
+    const handleRemoveTask = (id: string) => {
+        const newList = list.map(item => ({
+            ...item,
+            tasks: item.tasks.filter(task => task.id !== id)
+        }));
+        setList(newList);
+    };
+
+    const handleCheckTask = (id: string) => {
+        const newList = list.map(item => ({
+            ...item,
+            tasks: item.tasks.map(task => 
+                task.id === id ? { ...task, checked: !task.checked } : task
+            )
+        }));
+        setList(newList);
+    }
+
     return (
-        <ListContext.Provider value={{ list, handleSetList, handleRemoveList, handleAddTask }}>
+        <ListContext.Provider value={{ list, handleSetList, handleRemoveList, handleAddTask, handleRemoveTask, handleCheckTask }}>
             {children}
         </ListContext.Provider>
     );
